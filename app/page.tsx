@@ -241,11 +241,11 @@ export default function BirthdayBoard() {
   const todaysBirthdays = staffMembers.filter((staff) => isTodaysBirthday(staff.birthday_month, staff.birthday_day))
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4" style={{ backgroundImage: "url('/images/background.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
+    <div className="min-h-screen bg-gray-50 p-4" style={{ backgroundImage: "url('/birthday-board/images/background.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-2">
-          <img src="/images/logo.png" alt="Birthday Board Logo" className="h-16 " />
+          <img src="/birthday-board/images/logo.png" alt="Birthday Board Logo" className="h-16 " />
           <h1 className="text-4xl font-bold text-gray-900"></h1>
         </div>
 

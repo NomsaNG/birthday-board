@@ -9,6 +9,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  output: 'standalone', // Required for Netlify deployment
+  experimental: {
+    appDir: true, // Enable experimental app directory support
+  },
+  assetPrefix: '/birthday-board',
 }
 
 export default nextConfig
