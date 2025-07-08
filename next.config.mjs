@@ -13,7 +13,7 @@ const nextConfig = {
   experimental: {
     appDir: true, // Enable experimental app directory support
   },
-  assetPrefix: '/birthday-board',
+  
 }
 
 export default nextConfig
