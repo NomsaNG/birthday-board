@@ -25,7 +25,7 @@ export function StickyNote({ message, senderName, createdAt, colorClass }: Stick
         ${isHovered ? "scale-105 z-50" : ""}
         p-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer
         border-l-4 border-t-4 relative overflow-hidden w-full max-w-[180px]
-        min-h-[140px] flex flex-col
+        h-[160px] flex flex-col
       `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -35,7 +35,7 @@ export function StickyNote({ message, senderName, createdAt, colorClass }: Stick
 
       {/* Note content */}
       <div className="relative z-10 flex flex-col h-full">
-        <div className="flex-1 mb-2">
+        <div className="flex-1 mb-2 overflow-y-auto pr-1">
           <p className="text-gray-800 text-xs leading-relaxed font-handwriting break-words">{message}</p>
         </div>
 

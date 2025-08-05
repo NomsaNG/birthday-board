@@ -45,29 +45,44 @@ const STICKY_COLORS = [
   "bg-orange-200 border-orange-300",
 ]
 
-// Predefined positions for sticky notes to create scattered effect
+// Updated positions to reduce overlap
 const STICKY_POSITIONS = [
-  { top: "1%", left: "1%", rotation: "rotate-3" },
-  { top: "3%", right: "3%", rotation: "-rotate-2" },
-  { top: "25%", left: "2%", rotation: "rotate-4" },
-  { top: "40%", right: "6%", rotation: "rotate-2" },
-  { bottom: "25%", left: "2%", rotation: "-rotate-3" },
-  { bottom: "5%", right: "35%", rotation: "rotate-1" },
-  { bottom: "60", left: "35%", rotation: "-rotate-5" }, // note to self
-  { bottom: "10%", right: "5%", rotation: "rotate-2" },
-  { top: "40%", left: "15%", rotation: "-rotate-2" },
-  { top: "75%", right: "25%", rotation: "rotate-3" },
-  { top: "10%", left: "12%", rotation: "rotate-1" },
-  { top: "15%", right: "15%", rotation: "-rotate-1" },
-  { bottom: "20%", left: "8%", rotation: "rotate-2" },
-  { bottom: "30%", right: "15%", rotation: "-rotate-2" },
-  { top: "60%", left: "25%", rotation: "rotate-3" },
-  { top: "50%", right: "30%", rotation: "-rotate-3" },
-  { bottom: "40%", left: "40%", rotation: "rotate-4" },
-  { bottom: "50%", right: "25%", rotation: "-rotate-4" },
-  { top: "80%", left: "15%", rotation: "rotate-2" },
-  { top: "80%", right: "85%", rotation: "-rotate-5" },
+  // Top row
+  { top: "0%", left: "0%", rotation: "-rotate-3" },
+  { top: "0%", left: "15%", rotation: "rotate-2" },
+  { top: "0%", right: "15%", rotation: "-rotate-2" },
+  { top: "0%", right: "0%", rotation: "rotate-4" },
+
+  // Middle-high row
+  { top: "25%", left: "0%", rotation: "rotate-3" },
+  { top: "25%", right: "0%", rotation: "-rotate-1" },
+
+  // Middle-low row
+  { top: "25%", left: "15%", rotation: "-rotate-4" },
+  { top: "25%", right: "15%", rotation: "rotate-2" },
+
+  // Bottom row
+  { bottom: "22%", left: "0%", rotation: "rotate-2" },
+  { bottom: "1%", left: "32%", rotation: "-rotate-3" },
+  { bottom: "22%", right: "15%", rotation: "rotate-4" },
+  { bottom: "22%", right: "0%", rotation: "-rotate-2" },
+
+  // Filler positions for more notes
+  { top: "74%", left: "50%", rotation: "rotate-1" },
+  { top: "50%", left: "15%", rotation: "-rotate-2" },
+  { top: "75%", left: "0%", rotation: "rotate-3" },
+  { top: "75%", right: "0%", rotation: "-rotate-1" },
+  { top: "76%", right: "69%", rotation: "rotate-2" },
+  { top: "75%", right: "15%", rotation: "-rotate-3" },
+
+  // Additional positions for new sticky notes
+  { top: "10%", left: "10%", rotation: "rotate-1" },
+  { top: "10%", right: "10%", rotation: "-rotate-1" },
+  { bottom: "10%", left: "10%", rotation: "rotate-2" },
+  { bottom: "10%", right: "10%", rotation: "-rotate-2" },
 ]
+
+const MAX_MESSAGE_LENGTH = 250
 
 export default function BirthdayBoard() {
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>([])
@@ -250,7 +265,7 @@ export default function BirthdayBoard() {
         </div>
 
         {/* Toggle Section */}
-        <div className="fixed bottom-4 right-4">
+        <div className="fixed bottom-4 right-4 z-50">
           <Button
             onClick={() => setShowUpcomingBirthdays(!showUpcomingBirthdays)}
             className="bg-gradient-to-r  from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700  text-white font-bold py-2 px-4 rounded-full shadow-lg"
@@ -260,7 +275,7 @@ export default function BirthdayBoard() {
         </div>
 
         {/* Conditional Rendering Based on Toggle */}
-        <div className="relative bg-black bg-opacity-50 rounded-3xl border-4 border-dashed border-purple-300 p-8 min-h-[600px] overflow-hidden">
+        <div className="relative bg-black bg-opacity-50 rounded-3xl border-4 border-dashed border-purple-300 p-8 min-h-[80vh] overflow-hidden">
           {showUpcomingBirthdays ? (
             <UpcomingBirthdaysCalendar staffMembers={staffMembers} />
           ) : (
@@ -304,7 +319,7 @@ export default function BirthdayBoard() {
                     })}
 
                     {/* Center Content */}
-                    <div className="relative z-20 text-center">
+                    <div className="relative z-20 text-center flex flex-col items-center justify-center h-full">
                       <div className="mb-8">
                         <h3 className="text-4xl font-bold text-yellow-400 mb-4">
                           Happy Birthday {staff.name}!
@@ -366,7 +381,11 @@ export default function BirthdayBoard() {
                                   placeholder="Write your birthday message..."
                                   rows={4}
                                   required
+                                  maxLength={MAX_MESSAGE_LENGTH}
                                 />
+                                <div className="text-right text-xs text-muted-foreground mt-1">
+                                  {messageText.length} / {MAX_MESSAGE_LENGTH}
+                                </div>
                               </div>
                               <Button
                                 type="submit"
@@ -378,16 +397,6 @@ export default function BirthdayBoard() {
                             </form>
                           </DialogContent>
                         </Dialog>
-
-                        {/* <Button
-                          onClick={fetchMessages}
-                          variant="outline"
-                          size="lg"
-                          className="py-4 px-8 rounded-full text-lg"
-                        >
-                          <RefreshCw className="h-5 w-5 mr-2" />
-                          Refresh Messages
-                        </Button> */}
                       </div>
 
                       {staffMessages.length === 0 && (
