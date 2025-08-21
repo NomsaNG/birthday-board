@@ -19,4 +19,8 @@ export type BirthdayMessage = {
   sender_name: string
   message: string
   created_at: string
+  position?: {
+    x: number
+    y: number
+  }
 }

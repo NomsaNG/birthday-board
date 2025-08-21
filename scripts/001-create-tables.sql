@@ -49,6 +49,7 @@ INSERT INTO public.staff_members (name, birthday_month, birthday_day) VALUES
 ('Carla', 2, 11),
 ('Robin', 2, 25),
 ('Stephan', 2, 27),
+('Roudah', 3, 1)
 ('Octavio', 3, 3),
 ('Ibtishaam', 3, 4),
 ('Warren', 3, 8),
@@ -59,6 +60,7 @@ INSERT INTO public.staff_members (name, birthday_month, birthday_day) VALUES
 ('Boitumelo', 4, 6),
 ('De Wet', 4, 20),
 ('Christian', 4, 29),
+('Yumnah', 5, 5)
 ('Johan', 5, 24),
 ('Sonwabile', 6, 6),
 ('Patience', 6, 7),
@@ -66,12 +68,12 @@ INSERT INTO public.staff_members (name, birthday_month, birthday_day) VALUES
 ('San-Marie', 6, 25),
 ('Monalisa', 6, 30),
 ('Jean', 7, 3),
+('Senelisiwe', 7, 19)
 ('Theresa', 8, 5),
-('Zhosai', 8, 8),
 ('Nkeletseng', 8, 11),
 ('Sithembile', 8, 18),
 ('Darren', 8, 31),
-('Nicolas', 9, 18),
+('Nicholas', 9, 18),
 ('Jamie', 9, 20),
 ('Chloe', 9, 21),
 ('Irfaan', 11, 11),
