@@ -236,22 +236,22 @@ export default function BirthdayBoard() {
     return `${MONTHS[month - 1]} ${day}`
   }
 
-  const isTodaysBirthday = (month: number, day: number) => {
-    const today = new Date();
-    const currentMonth = today.getMonth() + 1; // Months are zero-based
-    const currentDay = today.getDate();
-
-    return month === currentMonth && day === currentDay;
-  }
-
-
   // const isTodaysBirthday = (month: number, day: number) => {
-  //   // Hardcoded test date: August 31
-  //   const currentMonth = 8;
-  //   const currentDay = 31;
-  
+  //   const today = new Date();
+  //   const currentMonth = today.getMonth() + 1; // Months are zero-based
+  //   const currentDay = today.getDate();
+
   //   return month === currentMonth && day === currentDay;
-  // };
+  // }
+
+
+  const isTodaysBirthday = (month: number, day: number) => {
+    // Hardcoded test date: September 20
+    const currentMonth = 9;
+    const currentDay = 20;
+  
+    return month === currentMonth && day === currentDay;
+  };
   // Get today's birthday people
   const todaysBirthdays = staffMembers.filter((staff) => isTodaysBirthday(staff.birthday_month, staff.birthday_day))
 
