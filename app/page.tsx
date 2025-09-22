@@ -248,7 +248,7 @@ export default function BirthdayBoard() {
   const isTodaysBirthday = (month: number, day: number) => {
     // Hardcoded test date: September 20
     const currentMonth = 9;
-    const currentDay = 20;
+    const currentDay = 21;
   
     return month === currentMonth && day === currentDay;
   };
