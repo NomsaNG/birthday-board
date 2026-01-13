@@ -78,6 +78,7 @@ export default function BirthdayBoard() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [showUpcomingBirthdays, setShowUpcomingBirthdays] = useState(false)
+  const [currentBirthdayIndex, setCurrentBirthdayIndex] = useState(0)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -270,135 +271,173 @@ export default function BirthdayBoard() {
                   No birthdays today!
                 </div>
               )}
-              {todaysBirthdays.map((staff) => {
-                const staffMessages = getMessagesForStaff(staff.id);
+              {todaysBirthdays.length > 0 && (
+                <div className="relative w-full h-full">
+                  {/* Slide Container */}
+                  <div className="overflow-hidden">
+                    <div
+                      className="transition-transform duration-500 ease-in-out"
+                      style={{
+                        transform: `translateX(${-currentBirthdayIndex * 100}%)`,
+                      }}
+                    >
+                      <div className="flex">
+                        {todaysBirthdays.map((staff) => {
+                          const staffMessages = getMessagesForStaff(staff.id);
 
-                return (
-                  <div key={staff.id} className="mb-16">
-                    {/* Scattered Sticky Notes */}
-                    {staffMessages.map((msg, index) => {
-                      const position = STICKY_POSITIONS[index % STICKY_POSITIONS.length];
-                      const colorClass = STICKY_COLORS[index % STICKY_COLORS.length];
+                          return (
+                            <div key={staff.id} className="w-full flex-shrink-0">
+                              {/* Scattered Sticky Notes */}
+                              <div className="relative h-[500px]">
+                                {staffMessages.map((msg, index) => {
+                                  const position = STICKY_POSITIONS[index % STICKY_POSITIONS.length];
+                                  const colorClass = STICKY_COLORS[index % STICKY_COLORS.length];
 
-                      return (
-                        <div
-                          key={msg.id}
-                          className={`absolute z-10 hover:z-50 focus:z-50`} // Adjust z-index on hover or focus
-                          style={{
-                            top: position.top,
-                            left: position.left,
-                            right: position.right,
-                            bottom: position.bottom,
-                          }}
-                        >
-                          <div className={`${position.rotation} max-w-[200px]`}>
-                            <StickyNote
-                              message={msg.message}
-                              senderName={msg.sender_name}
-                              createdAt={msg.created_at}
-                              colorClass={colorClass}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
+                                  return (
+                                    <div
+                                      key={msg.id}
+                                      className={`absolute z-10 hover:z-50 focus:z-50`}
+                                      style={{
+                                        top: position.top,
+                                        left: position.left,
+                                        right: position.right,
+                                        bottom: position.bottom,
+                                      }}
+                                    >
+                                      <div className={`${position.rotation} max-w-[200px]`}>
+                                        <StickyNote
+                                          message={msg.message}
+                                          senderName={msg.sender_name}
+                                          createdAt={msg.created_at}
+                                          colorClass={colorClass}
+                                        />
+                                      </div>
+                                    </div>
+                                  );
+                                })}
 
-                    {/* Center Content */}
-                    <div className="relative z-20 text-center">
-                      <div className="mb-8">
-                        <h3 className="text-4xl font-bold text-yellow-400 mb-4">
-                          Happy Birthday {staff.name}!
-                        </h3>
-                        <p className="text-2xl text-yellow-400">
-                          {formatDate(staff.birthday_month, staff.birthday_day)}
-                        </p>
-                      </div>
+                                {/* Center Content */}
+                                <div className="relative z-20 text-center h-full flex flex-col justify-center">
+                                  <div className="mb-8">
+                                    <h3 className="text-4xl font-bold text-yellow-400 mb-4">
+                                      Happy Birthday {staff.name}!
+                                    </h3>
+                                    <p className="text-2xl text-yellow-400">
+                                      {formatDate(staff.birthday_month, staff.birthday_day)}
+                                    </p>
+                                  </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex justify-center gap-4 mb-8">
-                        <Dialog
-                          open={selectedStaff?.id === staff.id}
-                          onOpenChange={(open) => {
-                            if (open) {
-                              setSelectedStaff(staff);
-                            } else {
-                              setSelectedStaff(null);
-                              setSenderName("");
-                              setMessageText("");
-                            }
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button
-                              size="lg"
-                              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full shadow-lg text-lg"
-                            >
-                              <Send className="h-5 w-5 mr-2" />
-                              Add Birthday Note
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-md">
-                            <DialogHeader>
-                              <DialogTitle className="text-center text-2xl">
-                                Birthday Note for {staff.name}
-                              </DialogTitle>
-                              <DialogDescription className="text-center">
-                                Add your special birthday message!
-                              </DialogDescription>
-                            </DialogHeader>
-                            <form onSubmit={handleSubmitMessage} className="space-y-4">
-                              <div>
-                                <Label htmlFor="sender">Your Name</Label>
-                                <Input
-                                  id="sender"
-                                  value={senderName}
-                                  onChange={(e) => setSenderName(e.target.value)}
-                                  placeholder="Enter your name"
-                                  required
-                                />
+                                  {/* Action Buttons */}
+                                  <div className="flex justify-center gap-4 mb-8">
+                                    <Dialog
+                                      open={selectedStaff?.id === staff.id}
+                                      onOpenChange={(open) => {
+                                        if (open) {
+                                          setSelectedStaff(staff);
+                                        } else {
+                                          setSelectedStaff(null);
+                                          setSenderName("");
+                                          setMessageText("");
+                                        }
+                                      }}
+                                    >
+                                      <DialogTrigger asChild>
+                                        <Button
+                                          size="lg"
+                                          className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full shadow-lg text-lg"
+                                        >
+                                          <Send className="h-5 w-5 mr-2" />
+                                          Add Birthday Note
+                                        </Button>
+                                      </DialogTrigger>
+                                      <DialogContent className="sm:max-w-md">
+                                        <DialogHeader>
+                                          <DialogTitle className="text-center text-2xl">
+                                            Birthday Note for {staff.name}
+                                          </DialogTitle>
+                                          <DialogDescription className="text-center">
+                                            Add your special birthday message!
+                                          </DialogDescription>
+                                        </DialogHeader>
+                                        <form onSubmit={handleSubmitMessage} className="space-y-4">
+                                          <div>
+                                            <Label htmlFor="sender">Your Name</Label>
+                                            <Input
+                                              id="sender"
+                                              value={senderName}
+                                              onChange={(e) => setSenderName(e.target.value)}
+                                              placeholder="Enter your name"
+                                              required
+                                            />
+                                          </div>
+                                          <div>
+                                            <Label htmlFor="message">Birthday Message</Label>
+                                            <Textarea
+                                              id="message"
+                                              value={messageText}
+                                              onChange={(e) => setMessageText(e.target.value)}
+                                              placeholder="Write your birthday message..."
+                                              rows={4}
+                                              required
+                                            />
+                                          </div>
+                                          <Button
+                                            type="submit"
+                                            className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
+                                            disabled={isSubmitting}
+                                          >
+                                            {isSubmitting ? "Adding Note..." : "Add Birthday Note"}
+                                          </Button>
+                                        </form>
+                                      </DialogContent>
+                                    </Dialog>
+                                  </div>
+
+                                  {staffMessages.length === 0 && (
+                                    <p className="text-lg text-yellow-400">
+                                      Be the first to add a birthday note!
+                                    </p>
+                                  )}
+                                </div>
                               </div>
-                              <div>
-                                <Label htmlFor="message">Birthday Message</Label>
-                                <Textarea
-                                  id="message"
-                                  value={messageText}
-                                  onChange={(e) => setMessageText(e.target.value)}
-                                  placeholder="Write your birthday message..."
-                                  rows={4}
-                                  required
-                                />
-                              </div>
-                              <Button
-                                type="submit"
-                                className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
-                                disabled={isSubmitting}
-                              >
-                                {isSubmitting ? "Adding Note..." : "Add Birthday Note"}
-                              </Button>
-                            </form>
-                          </DialogContent>
-                        </Dialog>
-
-                        {/* <Button
-                          onClick={fetchMessages}
-                          variant="outline"
-                          size="lg"
-                          className="py-4 px-8 rounded-full text-lg"
-                        >
-                          <RefreshCw className="h-5 w-5 mr-2" />
-                          Refresh Messages
-                        </Button> */}
+                            </div>
+                          );
+                        })}
                       </div>
-
-                      {staffMessages.length === 0 && (
-                        <p className="text-lg text-yellow-400">
-                          Be the first to add a birthday note!
-                        </p>
-                      )}
                     </div>
                   </div>
-                );
-              })}
+
+                  {/* Navigation Buttons */}
+                  {todaysBirthdays.length > 1 && (
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30 flex gap-4">
+                      <Button
+                        onClick={() => setCurrentBirthdayIndex((prev) => (prev === 0 ? todaysBirthdays.length - 1 : prev - 1))}
+                        className="bg-white text-gray-900 hover:bg-gray-200 font-bold py-2 px-4 rounded-full"
+                      >
+                        ← Previous
+                      </Button>
+                      <div className="flex items-center gap-2">
+                        {todaysBirthdays.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentBirthdayIndex(index)}
+                            className={`w-3 h-3 rounded-full transition-colors ${
+                              index === currentBirthdayIndex ? "bg-yellow-400" : "bg-gray-400"
+                            }`}
+                            aria-label={`Go to birthday ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                      <Button
+                        onClick={() => setCurrentBirthdayIndex((prev) => (prev === todaysBirthdays.length - 1 ? 0 : prev + 1))}
+                        className="bg-white text-gray-900 hover:bg-gray-200 font-bold py-2 px-4 rounded-full"
+                      >
+                        Next →
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>
